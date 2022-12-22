@@ -11,7 +11,7 @@ import os,sys
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'depparis.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'internal.settings')
 sys.path.insert(0, '/home/anton/www/depparis.store/depparis')
 sys.path.insert(1, '/home/anton/wwww/depparis.store/paris_env/lib/python3.10/site-packages')
 

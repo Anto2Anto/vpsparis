@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*2uzma_n$845$%jk74ytxzd%4w00*#^n8zja#56rz@c387m9^#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['depparis.store', 'www.depparis.store', 'depparis.store:8001', 'www.depparis.store:8001']
+ALLOWED_HOSTS = ['depparis.store', 'www.depparis.store', 'depparis.store:8000', 'www.depparis.store:8000']
 
 
 # Application definition
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'depparis.passenger_wsgi.application'
+WSGI_APPLICATION = 'depparis.wsgi.application'
 
 
 # Database

@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'depparis.depparis.urls'
+ROOT_URLCONF = 'internal.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'depparis.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database

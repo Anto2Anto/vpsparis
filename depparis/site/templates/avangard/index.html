@@ -1,0 +1,258 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link type="text/css" href="{% static 'avangard/css/style.css' %}" rel="stylesheet" />
+	<title>{{title}}</title>
+</head>
+<body>
+
+<!-- Sidebar left -->
+<table class="table-page" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td valign="top">
+			{% block mainmenu %}
+			<div class="header">
+				<ul>
+					<li>
+						Depannage
+					</li>
+				</ul>
+				<ul id="mainmenu" class="mainmenu">
+					<!--
+					{% for m in menu %}
+						<li>
+							<a href="{% url m.url_name %}">{{m.title}}</a>
+						</li>
+					{% endfor %}
+					-->
+					<li><a href="#home">
+						{% trans "Page d'accueil" %}</a></li>
+					<li><a href="#services">
+						{% trans 'Services' %}</a></li>
+					<li><a href="#cle_en_main">
+						{% trans 'Cle en main' %}</a></li>
+					<li><a href="#contact">
+						{% trans 'Contact' %}</a></li>
+					
+					<!-- Begin translation form -->
+					<li>
+						<form action="{% url 'set_language' %}" method="post">
+							{% csrf_token %}
+							<input name="next" type="hidden" value="{{redirect_to}}">
+							<select name="language">
+								{% get_current_language as LANGUAGE_CODE %}
+								{% get_available_languages as LANGUAGES %}
+								{% get_language_info_list for LANGUAGES as languages %}
+								{% for language in languages %}
+									<option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %}
+									        selected{% endif %}>
+										{{language.name_local}} ({{language.code}})
+									</option>
+								{% endfor %}
+							</select>
+							<input type="submit" value="Go">
+						</form>
+					</li>
+					<!-- End translation form -->
+					
+					{% if request.user.is_authenticated %}
+					<li class="last">{{user.username}} |
+						<a href="{% url 'logout' %}">{% trans 'Deconnexion' %}</a>
+					</li>
+					<li class="last">
+						<a href="{% url 'personal' %}">{% trans 'Mon compte' %}</a>
+					</li>
+					{% else %}
+					<li class="last">
+						<a href="{% url 'register' %}">{% trans 'Inscription' %}</a> |
+						<a href="{% url 'login' %}">{% trans 'Connexion' %}</a>
+					</li>
+					{% endif %}
+					
+				</ul>
+			</div>
+			{% endblock %}
+		</td>
+	</tr>
+</table>
+
+{% block content %}
+
+<div>
+	<p>
+		<h1 align="center">
+			<strong>
+				<a name="home">{% trans 'Depannage a Paris' %}</a>
+			</strong>
+		</h1>
+	</p>
+	<p>
+		<h3>
+			<strong>
+				Des services de premier ordre fournis par des professionnels reconnus
+			</strong>
+		</h3>
+	</p>
+	<p>
+		Nous sommes une équipe de professionnels expérimentés
+		et éprouvés et notre mission est d'éliminer le stress lié
+		à la recherche de professionnels qualifiés et fiables pour
+		s'occuper de votre plomberie, de votre électricité et plus encore.
+	</p>
+</div>
+
+<div>
+	
+	<form method="post">
+		{% csrf_token %}
+		<div class="form-error">{{form.non_field_errors}}</div>
+		{% for f in form %}
+			{% if forloop.last %}
+				<p>
+					{{f}}
+				</p>
+				<div class="form-error">{{f.errors}}</div>
+			{% endif %}
+		{% endfor %}
+	</form>
+	<p><button type="submit">{% trans 'Inviter maitre' %}</button></p>
+	
+</div>
+
+<div>
+	<p>
+		<h2 align="center">
+			<strong>
+				{% trans 'Differentes options de depannage' %}
+			</strong>
+		</h2>
+	</p>
+	<p>
+		Un large éventail de solutions complètes et sur mesure
+		pour répondre à vos besoins. Budget ou mieux.
+		Travaux urgents et préventifs. Parlez-en à votre assistant
+		et il vous aidera à choisir l'option qui vous convient le mieux.
+	</p>
+</div>
+
+<div>
+	<p>
+		{% trans 'Inviter maître' %}
+	</p>
+	<button type="button">
+		Call To Action
+	</button>
+</div>
+
+<div>
+	<p>
+		<h2 align="center">
+			<a name="services">{% trans 'Services' %}</a>
+		</h2>
+	</p>
+</div>
+
+<div>
+	<ul class="list-categories">
+	{% for c in cats %}
+		<li><p>
+			<a href="#">{{c.name}}</a>
+			{% if c.content %}
+				<p>{{c.content}}</p>
+			{% endif %}
+		</li>
+		<ul>
+			{% for s in service %}
+				{% if s.service_cat.id == c.pk %}
+				<li>
+					<a href="#">{{s.title}}</a>
+				</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endfor %}
+	</ul>
+</div>
+
+<div>
+	<p>
+		{% trans 'Inviter maître' %}
+	</p>
+	<button type="button">
+		Call To Action
+	</button>
+</div>
+
+<div>
+	<p>
+		<h2 align="center">
+			<a name="cle_en_main">{% trans 'Cle en main' %}</a>
+		</h2>
+	</p>
+	
+	<ul class="list-cle_en_main">
+	{% for c in cem_cats %}
+			<li>
+				<a href="#">{{c.name}}</a>
+				{% if c.content %}
+					<p>{{c.content}}</p>
+				{% endif %}
+			</li>
+	{% endfor %}
+	</ul>
+</div>
+
+<div>
+	<p>
+		<h2 align="center">
+			<strong>
+				<a name="contact">{% trans 'Forme du contact' %}</a>
+			</strong>
+		</h2>
+	</p>
+</div>
+
+<div>
+	<form method="post">
+		{% csrf_token %}
+		<div class="form-error">
+			{{form.non_field_errors}}
+		</div>
+		{% for f in form %}
+		{% if not forloop.last %}
+		<p>
+			<label class="form-label" for="{{f.id_for_label}}">{{f.label}}: </label>{{f}}
+		</p>
+		<div class="form-error">{{f.errors}}</div>
+		{% endif %}
+		{% endfor %}
+		<button type="submit">Envoyer</button>
+	</form>
+</div>
+
+<div>
+	<p>+0912345678</p>
+	<p>3-17, Visage vert, Paris</p>
+	
+	<ul class="list-categories">
+	{% for c in cats %}
+		<li><p>
+			<a href="#">{{c.name}}</a>
+		</li>
+	{% endfor %}
+	</ul>
+	
+</div>
+
+<div>
+	<p>DEPANNAGE</p>
+	<p>(c) 2022 {% trans 'Nom du companie. Tous les droites ont enregistre' %}</p>
+	<p>instagram</p>
+	<p>facebook</p>
+	<p>twitter</p>
+</div>
+
+{% endblock %}

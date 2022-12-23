@@ -1,0 +1,11 @@
+{% extends 'avangard/personal.html' %}
+
+{% block content %}
+	<ul>
+		{% for p in personal %}
+			<li>
+				{{p.order_history}}
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

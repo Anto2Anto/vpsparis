@@ -14,8 +14,36 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path, include
+from internal import settings
+from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
+from django.views.static import serve as mediaserve
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+        path('admin/', admin.site.urls),
+        path('', include('avangard.urls')),
+        path('captcha/', include('captcha.urls')),
+        path('i18n/', include('django.conf.urls.i18n')),
+        ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+else:
+    urlpatterns += [
+            re_path(f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
+                mediaserve, {'document_root': settings.MEDIA_ROOT}),
+            re_path(f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
+                mediaserve, {'document_root': settings.STATIC_ROOT}),
+            ]
+
+#urlpatterns += i18n_patterns(
+#        '', re_path(r'^$', 'avangard.views.home', name='home')
+#        )

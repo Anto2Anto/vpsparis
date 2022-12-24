@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,29 +25,41 @@ SECRET_KEY = 'django-insecure-*2uzma_n$845$%jk74ytxzd%4w00*#^n8zja#56rz@c387m9^#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['depparis.store', 'www.depparis.store', 'depparis.store:8000', 'www.depparis.store:8000']
+ALLOWED_HOSTS = ['depparis.store', 'www.depparis.store']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'avangard.apps.AvangardConfig',
+    'debug_toolbar',
+    'captcha',
+    'rest_framework',
+    'social_django',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+INTERNAL_IPS = [
+        '193.168.49.31',
+        ]
 
 ROOT_URLCONF = 'internal.urls'
 
@@ -75,8 +87,14 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'paris',
+        'USER': 'anton',
+        'PASSWORD': 'parisdepannage',
+        'HOST': 'www.depparis.store',
+        'PORT': '5432',
     }
 }
 
@@ -111,6 +129,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+gettext = lambda s: s
+LANGUAGES = (
+        ('fr', gettext('French')),
+        ('en', gettext('English')),
+        )
+
+LOCALE_PATHS = (
+        os.path.join(BASE_DIR, 'locale'),
+        )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -119,9 +146,19 @@ import os
 
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
+STATICFILES_DIRS = []
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")   # '/home/anton/www/depparis.store/depparis/static'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")   # '/home/anton/www/depparis.store/depparis/media'
+REST_FRAMEWORK = {
+        'DEFAULT_RENDERER_CLASSES': [
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+            ],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+            ]
+        }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

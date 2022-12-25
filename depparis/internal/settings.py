@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+#BASE_DIR = '/home/anton/www/depparis.store/depparis'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*2uzma_n$845$%jk74ytxzd%4w00*#^n8zja#56rz@c387m9^#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['depparis.store', 'www.depparis.store']
+ALLOWED_HOSTS = ['www.depparis.store', 'depparis.store']
 
 
 # Application definition
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 INTERNAL_IPS = [
@@ -66,9 +67,10 @@ ROOT_URLCONF = 'internal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            'autoescape': False,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -79,39 +81,19 @@ TEMPLATES = [
             ],
         },
     },
-
     {
-        'NAME': 'jinja2',
-        'BACKEND': 'django_jinja.backend.Jinja2',
-        'DIRS': [],
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
-            'autoescape': False,  # !!!!!!
-            "app_dirname": "jinja2",
-            "match_extension": ".html",
-            "newstyle_gettext": True,
-            "translation_engine": "django.utils.translation",
-            "extensions": [
-                "jinja2.ext.do",
-                "jinja2.ext.loopcontrols",
-                "jinja2.ext.with_",
-                "jinja2.ext.i18n",
-                "jinja2.ext.autoescape",
-                "django_jinja.builtins.extensions.CsrfExtension",
-                "django_jinja.builtins.extensions.CacheExtension",
-                "django_jinja.builtins.extensions.TimezoneExtension",
-                "django_jinja.builtins.extensions.UrlsExtension",
-                "django_jinja.builtins.extensions.StaticFilesExtension",
-                "django_jinja.builtins.extensions.DjangoFiltersExtension",
-                # "coffin.spaceless" не работает в py3
-            ],
+            'autoescape': False,
         }
     },
 ]
 
 WSGI_APPLICATION = 'wsgi.application'
 
-FORM_RENDERER = 'django.forms.renderers.Jinja2DivFormRenderer'
+#FORM_RENDERER = 'django.forms.renderers.Jinja2DivFormRenderer'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -129,6 +111,13 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+        'social_core.backends.open_id.OpenIdAuth',
+        #'social_core.backends.google.GoogleOpenId',
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.google.GoogleOAuth',
+        'django.contrib.auth.backends.ModelBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -189,7 +178,7 @@ REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
             'rest_framework.permissions.IsAuthenticated',
             ]
-        }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

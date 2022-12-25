@@ -74,13 +74,44 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
+    },
+
+    {
+        'NAME': 'jinja2',
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'autoescape': False,  # !!!!!!
+            "app_dirname": "jinja2",
+            "match_extension": ".html",
+            "newstyle_gettext": True,
+            "translation_engine": "django.utils.translation",
+            "extensions": [
+                "jinja2.ext.do",
+                "jinja2.ext.loopcontrols",
+                "jinja2.ext.with_",
+                "jinja2.ext.i18n",
+                "jinja2.ext.autoescape",
+                "django_jinja.builtins.extensions.CsrfExtension",
+                "django_jinja.builtins.extensions.CacheExtension",
+                "django_jinja.builtins.extensions.TimezoneExtension",
+                "django_jinja.builtins.extensions.UrlsExtension",
+                "django_jinja.builtins.extensions.StaticFilesExtension",
+                "django_jinja.builtins.extensions.DjangoFiltersExtension",
+                # "coffin.spaceless" не работает в py3
+            ],
+        }
     },
 ]
 
 WSGI_APPLICATION = 'wsgi.application'
 
+FORM_RENDERER = 'django.forms.renderers.Jinja2DivFormRenderer'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -121,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -145,10 +176,10 @@ LOCALE_PATHS = (
 import os
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 STATICFILES_DIRS = []
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
         'DEFAULT_RENDERER_CLASSES': [

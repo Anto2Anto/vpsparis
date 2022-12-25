@@ -1,4 +1,0 @@
-#!/bin/bash
-
-source paris_env/bin/activate
-cd /home/anton/www/depparis.store/depparis

@@ -4,8 +4,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link type="text/css" href="{% static 'avangard/css/style.css' %}" rel="stylesheet" />
-	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'avangard/static/css/style.css' %}" rel="stylesheet" />
+	<title>{{ title }}</title>
 </head>
 <body>
 
@@ -24,7 +24,7 @@
 					<!--
 					{% for m in menu %}
 						<li>
-							<a href="{% url m.url_name %}">{{m.title}}</a>
+							<a href="{% url m.url_name %}">{{ m.title }}</a>
 						</li>
 					{% endfor %}
 					-->
@@ -41,15 +41,15 @@
 					<li>
 						<form action="{% url 'set_language' %}" method="post">
 							{% csrf_token %}
-							<input name="next" type="hidden" value="{{redirect_to}}">
+							<input name="next" type="hidden" value="{{ redirect_to }}">
 							<select name="language">
 								{% get_current_language as LANGUAGE_CODE %}
 								{% get_available_languages as LANGUAGES %}
 								{% get_language_info_list for LANGUAGES as languages %}
 								{% for language in languages %}
-									<option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %}
+									<option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}
 									        selected{% endif %}>
-										{{language.name_local}} ({{language.code}})
+										{{ language.name_local }} ({{ language.code }})
 									</option>
 								{% endfor %}
 							</select>
@@ -59,7 +59,7 @@
 					<!-- End translation form -->
 					
 					{% if request.user.is_authenticated %}
-					<li class="last">{{user.username}} |
+					<li class="last">{{ user.username }} |
 						<a href="{% url 'logout' %}">{% trans 'Deconnexion' %}</a>
 					</li>
 					<li class="last">
@@ -112,9 +112,9 @@
 		{% for f in form %}
 			{% if forloop.last %}
 				<p>
-					{{f}}
+					{{ f }}
 				</p>
-				<div class="form-error">{{f.errors}}</div>
+				<div class="form-error">{{ f.errors }}</div>
 			{% endif %}
 		{% endfor %}
 	</form>
@@ -159,16 +159,16 @@
 	<ul class="list-categories">
 	{% for c in cats %}
 		<li><p>
-			<a href="#">{{c.name}}</a>
+			<a href="#">{{ c.name }}</a>
 			{% if c.content %}
-				<p>{{c.content}}</p>
+				<p>{{ c.content }}</p>
 			{% endif %}
 		</li>
 		<ul>
 			{% for s in service %}
 				{% if s.service_cat.id == c.pk %}
 				<li>
-					<a href="#">{{s.title}}</a>
+					<a href="#">{{ s.title }}</a>
 				</li>
 				{% endif %}
 			{% endfor %}
@@ -196,9 +196,9 @@
 	<ul class="list-cle_en_main">
 	{% for c in cem_cats %}
 			<li>
-				<a href="#">{{c.name}}</a>
+				<a href="#">{{ c.name }}</a>
 				{% if c.content %}
-					<p>{{c.content}}</p>
+					<p>{{ c.content }}</p>
 				{% endif %}
 			</li>
 	{% endfor %}
@@ -219,14 +219,14 @@
 	<form method="post">
 		{% csrf_token %}
 		<div class="form-error">
-			{{form.non_field_errors}}
+			{{ form.non_field_errors }}
 		</div>
 		{% for f in form %}
 		{% if not forloop.last %}
 		<p>
-			<label class="form-label" for="{{f.id_for_label}}">{{f.label}}: </label>{{f}}
+			<label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}
 		</p>
-		<div class="form-error">{{f.errors}}</div>
+		<div class="form-error">{{ f.errors }}</div>
 		{% endif %}
 		{% endfor %}
 		<button type="submit">Envoyer</button>
@@ -240,7 +240,7 @@
 	<ul class="list-categories">
 	{% for c in cats %}
 		<li><p>
-			<a href="#">{{c.name}}</a>
+			<a href="#">{{ c.name }}</a>
 		</li>
 	{% endfor %}
 	</ul>

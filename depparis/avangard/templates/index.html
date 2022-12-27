@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link type="text/css" href="{% static 'avangard/css/style.css' %}" rel="stylesheet" />
+	<link type="text/css" href="{% static 'avangard/static/css/style.css' %}" rel="stylesheet" />
 	<title>{{title}}</title>
 </head>
 <body>
@@ -36,27 +36,6 @@
 						{% trans 'Cle en main' %}</a></li>
 					<li><a href="#contact">
 						{% trans 'Contact' %}</a></li>
-					
-					<!-- Begin translation form -->
-					<li>
-						<form action="{% url 'set_language' %}" method="post">
-							{% csrf_token %}
-							<input name="next" type="hidden" value="{{redirect_to}}">
-							<select name="language">
-								{% get_current_language as LANGUAGE_CODE %}
-								{% get_available_languages as LANGUAGES %}
-								{% get_language_info_list for LANGUAGES as languages %}
-								{% for language in languages %}
-									<option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %}
-									        selected{% endif %}>
-										{{language.name_local}} ({{language.code}})
-									</option>
-								{% endfor %}
-							</select>
-							<input type="submit" value="Go">
-						</form>
-					</li>
-					<!-- End translation form -->
 					
 					{% if request.user.is_authenticated %}
 					<li class="last">{{user.username}} |

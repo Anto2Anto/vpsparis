@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-c-b)rb0i%9bbyo(q+6z22tbj(am&h4z@!hxj8*9&hlvk53l-(k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.depparis.store', 'depparis.store']
+ALLOWED_HOSTS = ['www.depparis.store', 'depparis.store', '193.168.49.31']
 
 
 # Application definition
@@ -126,10 +126,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR/'avangard', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR/'avangard', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

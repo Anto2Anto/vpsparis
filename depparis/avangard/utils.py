@@ -2,7 +2,7 @@ from .forms import ContactForm
 from .models import *
 
 menu = [
-        {'title': "Page d'accueil", 'url_name': 'home'},
+        {'title': "Page d'accueil", 'url_name': 'contact'},
         # {'title': 'Services', 'url_name': 'service'},
         # {'title': 'Cle en main', 'url_name': 'cle_en_main'},
         # {'title': 'Contact', 'url_name': 'contact'},
@@ -24,7 +24,7 @@ class DataMixin:
                 service = Service.objects.all()
                 cem_cats = Cle_en_main_cat.objects.all()
                 cem = Cle_en_main.objects.all()
-                #contact_form = ContactForm()
+                contact_form = ContactForm()
                 context['menu'] = menu
                 context['cats'] = cats
                 context['cem_cats'] = cem_cats
